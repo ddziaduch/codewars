@@ -5,24 +5,38 @@
 function snail(array $array): array
 {
     $results = [];
-    $xOffset = 1;
-    $yOffset = 0;
-    $n = count($array);
     $x = 0;
     $y = 0;
-    $xToWalk = 3;
-    $yToWalk = 0;
     $i = 0;
+    $n = count($array);
+    $direction = 'left';
 
-    while ($i < 4) {
-        $results[] = $array[$y][$x];
-        if ($xOffset !== 0) {
-            if ($xToWalk > 0) {
-                $xToWalk -= 1;
-                $x += $xOffset;
-            }
+    while ($i < $n * $n) {
+        if ($i > 4) break;
+        if (!in_array([$x, $y], $results)) {
+            $results[] = [$x, $y];
         }
-        $i++;
+
+        $newX = $x;
+        $newY = $y;
+
+        if ($direction === 'left') {
+            $newX = $x + 1;
+        } elseif ($direction === 'down') {
+            $newY = $y + 1;
+        } elseif ($direction === 'right') {
+            $newX = $x - 1;
+        } elseif ($direction === 'up') {
+            $newY = $y - 1;
+        }
+
+        if ($newX >= $n && $direction === 'left') {
+            $direction = 'down';
+        } else {
+            $x = $newX;
+            $y = $newY;
+            $i++;
+        }
     }
 
     var_dump($results);
