@@ -2,51 +2,119 @@
 
 // https://www.codewars.com/kata/snail/train/php
 
+abstract class Direction
+{
+    private $xOffset;
+    private $yOffset;
+
+    public function __construct(int $xOffset, int $yOffset)
+    {
+        $this->xOffset = $xOffset;
+        $this->yOffset = $yOffset;
+    }
+    public function getXOffset(): int
+    {
+        return $this->xOffset;
+    }
+
+    public function getYOffset(): int
+    {
+        return $this->yOffset;
+    }
+    public function isEqualTo(Direction $other)
+    {
+        return $this->xOffset === $other->xOffset && $this->yOffset === $other->yOffset;
+    }
+}
+
+class Up extends Direction
+{
+    public function __construct()
+    {
+        parent::__construct(0, -1);
+    }
+}
+
+class Right extends Direction
+{
+    public function __construct()
+    {
+        parent::__construct(1, 0);
+    }
+}
+
+class Down extends Direction
+{
+    public function __construct()
+    {
+        parent::__construct(0, 1);
+    }
+}
+
+class Left extends Direction
+{
+    public function __construct()
+    {
+        parent::__construct(-1, 0);
+    }
+}
+
 function snail(array $array): array
 {
-    $results = [];
+    $up = new Up();
+    $right = new Right();
+    $down = new Down();
+    $left = new Left();
+
+    $coordinates = [];
     $x = 0;
     $y = 0;
     $i = 0;
-    $n = count($array);
-    $direction = 'left';
+    $n = count($array[0]);
+    $numberOfElements = $n * $n;
 
-    while ($i < $n * $n) {
-        if ($i > 4) break;
-        if (!in_array([$x, $y], $results)) {
-            $results[] = [$x, $y];
-        }
+    $direction = $right;
 
-        $newX = $x;
-        $newY = $y;
+    while ($i < $numberOfElements) {
+        $currentElementKey = "$x:$y";
+        $coordinates[] = $currentElementKey;
+        $nextElementKey = sprintf("%s:%s", $x + $direction->getXOffset(), $y + $direction->getYOffset());
 
-        if ($direction === 'left') {
-            $newX = $x + 1;
-        } elseif ($direction === 'down') {
-            $newY = $y + 1;
-        } elseif ($direction === 'right') {
-            $newX = $x - 1;
-        } elseif ($direction === 'up') {
-            $newY = $y - 1;
-        }
-
-        if ($newX >= $n && $direction === 'left') {
-            $direction = 'down';
+        if (!in_array($nextElementKey, $coordinates)) {
+            if ($x + $direction->getXOffset() >= $n) {
+                $direction = $down;
+            } elseif ($y + $direction->getYOffset() >= $n) {
+                $direction = $left;
+            } elseif ($x + $direction->getXOffset() < 0) {
+                $direction = $up;
+            }
         } else {
-            $x = $newX;
-            $y = $newY;
-            $i++;
+            if ($direction instanceof Up) {
+                $direction = $right;
+            } elseif ($direction instanceof Right) {
+                $direction = $down;
+            } elseif ($direction instanceof Down) {
+                $direction = $left;
+            } elseif ($direction instanceof Left) {
+                $direction = $up;
+            }
         }
+        $x = $x + $direction->getXOffset();
+        $y = $y + $direction->getYOffset();
+        $i++;
     }
 
-    var_dump($results);
+    $results = array_map(function ($point) use ($array) {
+        list($x, $y) = explode(':', $point);
+        return $array[$y][$x];
+    } , $coordinates);
 
     return $results;
 }
 
-snail([
+var_dump(snail([
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9]
-]);
+]));
 
