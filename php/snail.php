@@ -2,114 +2,211 @@
 
 // https://www.codewars.com/kata/snail/train/php
 
-abstract class Direction
+class Offset
 {
-    private $xOffset;
-    private $yOffset;
+    private $x;
+    private $y;
 
     public function __construct(int $xOffset, int $yOffset)
     {
-        $this->xOffset = $xOffset;
-        $this->yOffset = $yOffset;
+        $this->x = $xOffset;
+        $this->y = $yOffset;
     }
-    public function getXOffset(): int
+    public function getX(): int
     {
-        return $this->xOffset;
+        return $this->x;
     }
 
-    public function getYOffset(): int
+    public function getY(): int
     {
-        return $this->yOffset;
-    }
-    public function isEqualTo(Direction $other)
-    {
-        return $this->xOffset === $other->xOffset && $this->yOffset === $other->yOffset;
+        return $this->y;
     }
 }
 
-class Up extends Direction
+abstract class Direction
+{
+    private $offset;
+
+    public function __construct(int $xOffset, int $yOffset)
+    {
+        $this->offset = new Offset($xOffset, $yOffset);
+    }
+
+    public function getOffset(): Offset
+    {
+        return $this->offset;
+    }
+
+    abstract public function turnRight(): Direction;
+}
+
+class North extends Direction
 {
     public function __construct()
     {
         parent::__construct(0, -1);
     }
+
+    public function turnRight(): Direction
+    {
+        return new East();
+    }
 }
 
-class Right extends Direction
+class East extends Direction
 {
     public function __construct()
     {
         parent::__construct(1, 0);
     }
+
+    public function turnRight(): Direction
+    {
+        return new South();
+    }
 }
 
-class Down extends Direction
+class South extends Direction
 {
     public function __construct()
     {
         parent::__construct(0, 1);
     }
+
+    public function turnRight(): Direction
+    {
+        return new West();
+    }
 }
 
-class Left extends Direction
+class West extends Direction
 {
     public function __construct()
     {
         parent::__construct(-1, 0);
     }
+
+    public function turnRight(): Direction
+    {
+        return new North();
+    }
+}
+
+class Snail
+{
+    private $visitedCoordinates = [];
+    private $direction;
+    private $matrix;
+    private $currentCoordinates;
+
+    public function __construct(Matrix $matrix)
+    {
+        $this->matrix = $matrix;
+        $this->direction = new East();
+        $this->currentCoordinates = new Coordinates(0, 0);
+    }
+
+    public function move()
+    {
+        $this->visitedCoordinates[] = $this->currentCoordinates;
+        $candidateForNextCoordinates = $this->getNextCoordinates();
+
+        if (!$this->matrix->containsCoordinates($candidateForNextCoordinates) || in_array($candidateForNextCoordinates, $this->visitedCoordinates)) {
+            $this->direction = $this->direction->turnRight();
+            $candidateForNextCoordinates = $this->getNextCoordinates();
+        }
+        $this->currentCoordinates = $candidateForNextCoordinates;
+    }
+
+    public function getVisitedCoordinates(): array
+    {
+        return $this->visitedCoordinates;
+    }
+
+    public function canMove()
+    {
+        return count($this->visitedCoordinates) < $this->matrix->getSize();
+    }
+
+    private function getNextCoordinates(): Coordinates
+    {
+        return $this->currentCoordinates->applyOffset($this->direction->getOffset());
+    }
+}
+
+class Coordinates
+{
+    private $x;
+    private $y;
+
+    public function __construct(int $x, int $y)
+    {
+        $this->x = $x;
+        $this->y = $y;
+    }
+
+    public function getX(): int
+    {
+        return $this->x;
+    }
+
+    public function getY(): int
+    {
+        return $this->y;
+    }
+
+    public function applyOffset(Offset $offset): self
+    {
+        return new self(
+            $this->x + $offset->getX(),
+            $this->y + $offset->getY()
+        );
+    }
+}
+
+class Matrix
+{
+    private $data;
+
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
+    public function containsCoordinates(Coordinates $coordinates): bool
+    {
+        return array_key_exists(
+            $coordinates->getY(),
+            $this->data
+        ) && array_key_exists(
+            $coordinates->getX(),
+            $this->data[$coordinates->getY()]
+        );
+    }
+
+    public function getValue(Coordinates $coordinates)
+    {
+        return $this->containsCoordinates($coordinates) ? $this->data[$coordinates->getY()][$coordinates->getX()] : null;
+    }
+
+    public function getSize()
+    {
+        return count($this->data[0]) ** 2;
+    }
 }
 
 function snail(array $array): array
 {
-    $up = new Up();
-    $right = new Right();
-    $down = new Down();
-    $left = new Left();
+    $matrix = new Matrix($array);
+    $snail = new Snail($matrix);
 
-    $coordinates = [];
-    $x = 0;
-    $y = 0;
-    $i = 0;
-    $n = count($array[0]);
-    $numberOfElements = $n * $n;
-
-    $direction = $right;
-
-    while ($i < $numberOfElements) {
-        $currentElementKey = "$x:$y";
-        $coordinates[] = $currentElementKey;
-        $nextElementKey = sprintf("%s:%s", $x + $direction->getXOffset(), $y + $direction->getYOffset());
-
-        if (!in_array($nextElementKey, $coordinates)) {
-            if ($x + $direction->getXOffset() >= $n) {
-                $direction = $down;
-            } elseif ($y + $direction->getYOffset() >= $n) {
-                $direction = $left;
-            } elseif ($x + $direction->getXOffset() < 0) {
-                $direction = $up;
-            }
-        } else {
-            if ($direction instanceof Up) {
-                $direction = $right;
-            } elseif ($direction instanceof Right) {
-                $direction = $down;
-            } elseif ($direction instanceof Down) {
-                $direction = $left;
-            } elseif ($direction instanceof Left) {
-                $direction = $up;
-            }
-        }
-        $x = $x + $direction->getXOffset();
-        $y = $y + $direction->getYOffset();
-        $i++;
+    while ($snail->canMove()) {
+        $snail->move();
     }
 
-    $results = array_map(function ($point) use ($array) {
-        list($x, $y) = explode(':', $point);
-        return $array[$y][$x];
-    } , $coordinates);
-
-    return $results;
+    return array_map(function (Coordinates $coordinates) use ($matrix) {
+        return $matrix->getValue($coordinates);
+    }, $snail->getVisitedCoordinates());
 }
 
 var_dump(snail([
