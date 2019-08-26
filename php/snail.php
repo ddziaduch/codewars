@@ -106,7 +106,12 @@ class Snail
         $this->currentCoordinates = new Coordinates(0, 0);
     }
 
-    public function move()
+    /**
+     * Record current position first.
+     * Then Move the snail in the current direction.
+     * If the snail is unable to move, turn right and try again
+     */
+    public function move(): void
     {
         $this->visitedCoordinates[] = $this->currentCoordinates;
         $candidateForNextCoordinates = $this->getNextCoordinates();
@@ -123,7 +128,10 @@ class Snail
         return $this->visitedCoordinates;
     }
 
-    public function canMove()
+    /**
+     * Snail can move only when there are unvisited coordinates
+     */
+    public function canMove(): bool
     {
         return count($this->visitedCoordinates) < $this->matrix->getSize();
     }
@@ -189,7 +197,7 @@ class Matrix
         return $this->containsCoordinates($coordinates) ? $this->data[$coordinates->getY()][$coordinates->getX()] : null;
     }
 
-    public function getSize()
+    public function getSize(): int
     {
         return count($this->data[0]) ** 2;
     }
@@ -197,14 +205,18 @@ class Matrix
 
 function snail(array $array): array
 {
+    // create a matrix which contains raw data
     $matrix = new Matrix($array);
+    // snail which knows how move on the matrix and it also collects the visited coordinates
     $snail = new Snail($matrix);
 
+    // let's move!
     while ($snail->canMove()) {
         $snail->move();
     }
 
-    return array_map(function (Coordinates $coordinates) use ($matrix) {
+    // get the values for each visited coordinate
+    return array_map(static function (Coordinates $coordinates) use ($matrix) {
         return $matrix->getValue($coordinates);
     }, $snail->getVisitedCoordinates());
 }
