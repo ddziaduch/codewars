@@ -1,12 +1,9 @@
 // https://www.codewars.com/kata/descending-order/train/rust
 
-fn descending_order(number: u64) -> u64 {
-    let string = number.to_string();
-    let chars = string.chars();
-    let digits = chars.map(|digit| digit.to_digit(10).unwrap());
-    let mut vector = digits.collect::<Vec<u32>>();
-    vector.sort_by(|a, b| b.partial_cmp(a).unwrap());
-    vector.into_iter().map(|y| y.to_string()).collect::<String>().parse::<u64>().ok().unwrap()
+fn descending_order(x: u64) -> u64 {
+    let mut y = x.to_string().chars().collect::<Vec<char>>();
+    y.sort_by(|a, b| b.cmp(a));
+    y.into_iter().collect::<String>().parse::<u64>().unwrap()
 }
 
 assert_eq!(descending_order(0), 0);
