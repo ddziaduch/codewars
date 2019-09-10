@@ -1,3 +1,7 @@
+mod descending_order;
+mod leap_years;
+
 fn main() {
-    println!("Hello, world!");
+    descending_order::verify();
+    leap_years::verify();
 }
