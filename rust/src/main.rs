@@ -4,6 +4,7 @@ mod complementary_dna;
 mod tribonacci;
 mod wilson_prime;
 mod create_phone_number;
+mod playing_with_digits;
 
 fn main() {
     descending_order::verify();
@@ -12,4 +13,5 @@ fn main() {
     tribonacci::verify();
     wilson_prime::verify();
     create_phone_number::verify();
+    playing_with_digits::verify();
 }
