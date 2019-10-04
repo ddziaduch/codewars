@@ -6,6 +6,7 @@ mod wilson_prime;
 mod create_phone_number;
 mod playing_with_digits;
 mod century_from_year;
+mod two_to_one;
 
 fn main() {
     descending_order::verify();
@@ -16,4 +17,5 @@ fn main() {
     create_phone_number::verify();
     playing_with_digits::verify();
     century_from_year::verify();
+    two_to_one::verify();
 }
