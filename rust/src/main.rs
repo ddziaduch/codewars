@@ -7,7 +7,8 @@
 //mod playing_with_digits;
 //mod century_from_year;
 //mod two_to_one;
-mod array_diff;
+//mod array_diff;
+mod range_extraction;
 
 fn main() {
 //    descending_order::verify();
@@ -19,5 +20,6 @@ fn main() {
 //    playing_with_digits::verify();
 //    century_from_year::verify();
 //    two_to_one::verify();
-    array_diff::verify();
+//    array_diff::verify();
+    range_extraction::verify();
 }
