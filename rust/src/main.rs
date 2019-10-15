@@ -9,6 +9,7 @@ mod century_from_year;
 mod two_to_one;
 mod array_diff;
 mod range_extraction;
+mod bit_counting;
 
 fn main() {
     descending_order::verify();
@@ -22,4 +23,5 @@ fn main() {
     two_to_one::verify();
     array_diff::verify();
     range_extraction::verify();
+    bit_counting::verify();
 }
