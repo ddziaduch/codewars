@@ -10,6 +10,7 @@ mod two_to_one;
 mod array_diff;
 mod range_extraction;
 mod bit_counting;
+mod good_vs_evil;
 
 fn main() {
     descending_order::verify();
@@ -24,4 +25,5 @@ fn main() {
     array_diff::verify();
     range_extraction::verify();
     bit_counting::verify();
+    good_vs_evil::verify();
 }
