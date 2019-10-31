@@ -11,6 +11,7 @@ mod array_diff;
 mod range_extraction;
 mod bit_counting;
 mod good_vs_evil;
+mod valid_braces;
 
 fn main() {
     descending_order::verify();
@@ -26,4 +27,5 @@ fn main() {
     range_extraction::verify();
     bit_counting::verify();
     good_vs_evil::verify();
+    valid_braces::verify();
 }
