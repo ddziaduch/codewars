@@ -12,6 +12,7 @@ mod range_extraction;
 mod bit_counting;
 mod good_vs_evil;
 mod valid_braces;
+mod simple_substitution_cipher_helper;
 
 fn main() {
     descending_order::verify();
@@ -28,4 +29,5 @@ fn main() {
     bit_counting::verify();
     good_vs_evil::verify();
     valid_braces::verify();
+    simple_substitution_cipher_helper::verify();
 }
