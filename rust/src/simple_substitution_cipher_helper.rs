@@ -1,3 +1,5 @@
+// https://www.codewars.com/kata/simple-substitution-cipher-helper/rust
+
 struct Cipher {
     input: String,
     output: String
