@@ -1,5 +1,7 @@
 // https://www.codewars.com/kata/530265044b7e23379d00076a/train/rust
 
+// @TODO fix me in the future :-D
+
 type Point = (f32, f32);
 
 fn point_in_poly(poly: &[Point], point: Point) -> bool {
