@@ -15,6 +15,7 @@ mod valid_braces;
 mod simple_substitution_cipher_helper;
 //mod point_in_polygon;
 mod sum_of_odd_numbers;
+mod power_of_two;
 
 fn main() {
     descending_order::verify();
@@ -34,4 +35,5 @@ fn main() {
     simple_substitution_cipher_helper::verify();
 //    point_in_polygon::verify();
     sum_of_odd_numbers::verify();
+    power_of_two::verify();
 }
