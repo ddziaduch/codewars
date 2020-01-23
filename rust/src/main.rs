@@ -17,6 +17,7 @@ mod simple_substitution_cipher_helper;
 mod sum_of_odd_numbers;
 mod power_of_two;
 mod numbers_to_letters;
+mod reversed_strings;
 
 fn main() {
     descending_order::verify();
@@ -38,4 +39,5 @@ fn main() {
     sum_of_odd_numbers::verify();
     power_of_two::verify();
     numbers_to_letters::verify();
+    reversed_strings::verify();
 }
