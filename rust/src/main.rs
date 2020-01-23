@@ -18,6 +18,7 @@ mod sum_of_odd_numbers;
 mod power_of_two;
 mod numbers_to_letters;
 mod reversed_strings;
+mod vowel_count;
 
 fn main() {
     descending_order::verify();
@@ -40,4 +41,5 @@ fn main() {
     power_of_two::verify();
     numbers_to_letters::verify();
     reversed_strings::verify();
+    vowel_count::verify();
 }
