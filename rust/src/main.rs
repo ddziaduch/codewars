@@ -19,6 +19,7 @@ mod power_of_two;
 mod numbers_to_letters;
 mod reversed_strings;
 mod vowel_count;
+mod multiples_of_3_or_5;
 
 fn main() {
     descending_order::verify();
@@ -42,4 +43,5 @@ fn main() {
     numbers_to_letters::verify();
     reversed_strings::verify();
     vowel_count::verify();
+    multiples_of_3_or_5::verify();
 }
