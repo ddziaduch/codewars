@@ -1,5 +1,4 @@
 fn potatoes (initial_percent_of_water: i64, initial_weight_in_kg: i64, final_percent_of_water: i64) -> i64 {
-    println!("{:?}, {:?}, {:?}", initial_percent_of_water, initial_weight_in_kg, final_percent_of_water);
     let initial_share_of_water: f64 = (100.0 - initial_percent_of_water as f64) / 100.0;
     let dry_mass_in_kg: f64 = initial_weight_in_kg as f64 * initial_share_of_water;
     let final_share_of_water: f64 = (100.0 - final_percent_of_water as f64) / 100.0;
