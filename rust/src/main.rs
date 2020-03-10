@@ -20,6 +20,7 @@ mod numbers_to_letters;
 mod reversed_strings;
 mod vowel_count;
 mod multiples_of_3_or_5;
+mod drying_potatoes;
 
 fn main() {
     descending_order::verify();
@@ -44,4 +45,5 @@ fn main() {
     reversed_strings::verify();
     vowel_count::verify();
     multiples_of_3_or_5::verify();
+    drying_potatoes::verify();
 }
