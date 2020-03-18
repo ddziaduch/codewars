@@ -21,6 +21,7 @@ mod reversed_strings;
 mod vowel_count;
 mod multiples_of_3_or_5;
 mod drying_potatoes;
+mod buying_a_car;
 
 fn main() {
     descending_order::verify();
@@ -46,4 +47,5 @@ fn main() {
     vowel_count::verify();
     multiples_of_3_or_5::verify();
     drying_potatoes::verify();
+    buying_a_car::verify();
 }
