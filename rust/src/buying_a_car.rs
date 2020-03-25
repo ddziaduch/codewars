@@ -1,7 +1,7 @@
 fn nb_months_recursive(old: f64, new: f64, saving: i32, perc: f64, month: i32) -> (i32, i32) {
     let available = old - new + (saving * month) as f64;
 
-    if available > 0.0 {
+    if available >= 0.0 {
         (month, available.round() as i32)
     } else {
         nb_months_recursive(
@@ -29,4 +29,5 @@ pub fn verify() {
     testing(8000, 12000, 500, 1.0, (8, 597));
     testing(18000, 32000, 1500, 1.25, (8, 332));
     testing(7500, 32000, 300, 1.55, (25, 122));
+    testing(2900, 2900, 1000, 1.3, (0, 0));
 }
