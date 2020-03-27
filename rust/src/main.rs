@@ -22,6 +22,7 @@ mod vowel_count;
 mod multiples_of_3_or_5;
 mod drying_potatoes;
 mod buying_a_car;
+mod remove_frst_and_last_character;
 
 fn main() {
     descending_order::verify();
@@ -48,4 +49,5 @@ fn main() {
     multiples_of_3_or_5::verify();
     drying_potatoes::verify();
     buying_a_car::verify();
+    remove_frst_and_last_character::verify();
 }
