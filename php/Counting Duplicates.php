@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 function duplicateCount(string $text): int
 {
-    return array_sum(
-        array_reduce(
-            array_map('strtolower', str_split($text) ?: []),
-            static function (array $curry, string $char): array {
-                $curry[$char] = (int)isset($curry[$char]);
-                return $curry;
-            },
-            []
-        )
+    return array_reduce(
+        count_chars(strtolower($text)),
+        static function (int $result, int $charCount) {
+            return $charCount > 1 ? $result + 1 : $result;
+        },
+        0
     );
 }
 
